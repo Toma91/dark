@@ -49,6 +49,40 @@ extension Lexer {
 
 private extension Lexer {
     
+    mutating func advanceIf(_ predicate: (Character) -> Bool) -> Bool {
+        guard predicate(input[curIndex]) else { return false }
+        
+        input.formIndex(after: &curIndex)
+        return true
+    }
+    
+    func isOperatorLeftBound() -> Bool {
+        guard curIndex != input.startIndex else { return false }
+        
+        switch input[input.index(before: curIndex)] {
+        
+        case " ", "\r", "\n", "\t": fallthrough
+        case "(", "[", "{": fallthrough
+        case ",", ";", ":": fallthrough
+        case "\0": return false
+            
+        case "/":
+            return input.index(before: curIndex) == input.startIndex
+                || input[input.index(curIndex, offsetBy: -2)] != "*"
+
+        case "\u{A0}":
+            return input.index(before: curIndex) == input.startIndex
+                || input[input.index(curIndex, offsetBy: -2)] != "\u{C2}"
+            
+        default: return true
+            
+        }
+    }
+    
+    func isOperatorRightBound() -> Bool {
+        fatalError()
+    }
+    
     mutating func lexIdentifier() -> Token {
         var identifier = ""
         
@@ -60,8 +94,27 @@ private extension Lexer {
         return Keyword(rawValue: identifier) ?? Identifier(identifier)
     }
     
-    func lexOperator() -> Token {
-        fatalError("Not implemented yet")
+    mutating func lexOperator() -> Token {
+        let opStart = input[input.index(before: curIndex)]
+
+        guard advanceIf(Operator.canStartWith) else {
+            fatalError("Unexpected operator start")
+        }
+       
+        repeat {
+            if input[curIndex] == "." && opStart != "." {
+                break
+            }
+        } while advanceIf(Operator.canContinueWith)
+        
+        
+        fatalError("\(input[curIndex])")
+        
+        
+        
+        
+        print("Not implemented yet", "~", input[curIndex...], "~")
+        fatalError()
     }
     
     mutating func punctuator(_ p: Punctuator) -> Token {

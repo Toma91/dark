@@ -50,9 +50,41 @@ enum Punctuator: Token {
     
 }
 
-enum Operator: Token {
+struct Operator: Token {
     
-    case equal
+    static let operatorCharacters: [Character] = [
+        "/", "=", "-", "+", "*", "%", "<", ">", "!", "&", "|", "^", "~", ".", "?"
+    ]
+    
+    static func canStartWith(character c: Character) -> Bool {
+        if operatorCharacters.contains(c) { return true }
+        
+        return (c >= "¡" && c <= "§")
+            || c == "©" || c == "«" || c == "¬" || c == "®"
+            || c == "°" || c == "±" || c == "¶" || c == "»"
+            || c == "¿" || c == "×" || c == "÷"
+            || c == "‖" || c == "‗" || (c >= "†" && c <= "‧")
+            || (c >= "‰" && c <= "‾") || (c >= "⁁" && c <= "⁓")
+            || (c >= "⁕" && c <= "⁞") || (c >= "←" && c <= "⏿")
+            || (c >= "─" && c <= "❵") || (c >= "➔" && c <= "⯿")
+            || (c >= "⸀" && c <= "⹿") || (c >= "、" && c <= "〃")
+            || (c >= "〈" && c <= "〰")
+    }
+    
+    static func canContinueWith(character c: Character) -> Bool {
+        if canStartWith(character: c) { return true }
+    
+        guard
+            let C = c.unicodeScalars.first?.value, c.unicodeScalars.count == 1
+            else { fatalError("Strange character? (\(c)") }
+        
+        return (C >= 0x0300 && C <= 0x036F)
+            || (C >= 0x1DC0 && C <= 0x1DFF)
+            || (C >= 0x20D0 && C <= 0x20FF)
+            || (C >= 0xFE00 && C <= 0xFE0F)
+            || (C >= 0xFE20 && C <= 0xFE2F)
+            || (C >= 0xE0100 && C <= 0xE01EF)
+    }
     
 }
 
