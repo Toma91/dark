@@ -11,7 +11,7 @@
 		65158B7720E5039000218BFE /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B7620E5039000218BFE /* Token.swift */; };
 		65158B7920E503C100218BFE /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B7820E503C100218BFE /* Lexer.swift */; };
 		65158B7B20E5047300218BFE /* Character+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B7A20E5047300218BFE /* Character+Utils.swift */; };
-		65158B7D20E5114A00218BFE /* FileLexerInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B7C20E5114A00218BFE /* FileLexerInput.swift */; };
+		65706B3520F21251007E2467 /* IteratorProtocol+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65706B3420F21251007E2467 /* IteratorProtocol+Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,7 +32,7 @@
 		65158B7620E5039000218BFE /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		65158B7820E503C100218BFE /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 		65158B7A20E5047300218BFE /* Character+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character+Utils.swift"; sourceTree = "<group>"; };
-		65158B7C20E5114A00218BFE /* FileLexerInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLexerInput.swift; sourceTree = "<group>"; };
+		65706B3420F21251007E2467 /* IteratorProtocol+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IteratorProtocol+Utils.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +67,7 @@
 			children = (
 				65158B6F20E5034F00218BFE /* main.swift */,
 				65158B7A20E5047300218BFE /* Character+Utils.swift */,
-				65158B7C20E5114A00218BFE /* FileLexerInput.swift */,
+				65706B3420F21251007E2467 /* IteratorProtocol+Utils.swift */,
 				65158B7820E503C100218BFE /* Lexer.swift */,
 				65158B7620E5039000218BFE /* Token.swift */,
 			);
@@ -131,10 +131,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65706B3520F21251007E2467 /* IteratorProtocol+Utils.swift in Sources */,
 				65158B7020E5034F00218BFE /* main.swift in Sources */,
 				65158B7B20E5047300218BFE /* Character+Utils.swift in Sources */,
 				65158B7920E503C100218BFE /* Lexer.swift in Sources */,
-				65158B7D20E5114A00218BFE /* FileLexerInput.swift in Sources */,
 				65158B7720E5039000218BFE /* Token.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

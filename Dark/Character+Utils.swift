@@ -13,6 +13,20 @@ extension Character {
         
         case "A" ... "Z": return true
         case "a" ... "z": return true
+            
+        default: return false
+            
+        }
+    }
+    
+    var isAlphaNum: Bool {
+        return isAlpha || isNum
+    }
+    
+    var isNum: Bool {
+        switch self {
+            
+        case "0" ... "9": return true
         default: return false
             
         }
@@ -25,6 +39,7 @@ extension Character {
         case "\t": return true
         case "\n": return true
         case "\r": return true
+            
         default: return false
             
         }

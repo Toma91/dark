@@ -6,55 +6,117 @@
 //  Copyright © 2018 Weedea. All rights reserved.
 //
 
-protocol LexerInput {
+struct Lexer<I: IteratorProtocol> where I.Element == Character {
     
-    func peekChar() -> Character
+    private var curChar: Character? = " "
     
-    func skip(while predicate: (Character) -> Bool)
+    private var input: I
     
-}
-
-
-protocol InputProcessor {
+    init(input: I) {
+        self.input = input
+    }
     
-    func identifyToken(using input: LexerInput) -> Token
     
-}
-
-struct AlphaProcessor: InputProcessor {
- 
-    func identifyToken(using input: LexerInput) -> Token {
+    private mutating func lexIdentifier() -> Token {
+        var identifier = ""
+        
+        while curChar?.isAlphaNum == true {
+            identifier.append(curChar!)
+            curChar = input.next()
+        }
+        
+        return Keyword(rawValue: identifier) ?? Identifier(identifier)
+    }
+    
+    private mutating func punctuator(_ p: Punctuator) -> Token {
+        curChar = input.next()
+        return p
+    }
+    
+    private func lexOperator() -> Token {
         fatalError()
     }
     
-}
-
-struct Lexer {
-    
-    private let input: LexerInput
-    
-    
-    init(input: LexerInput) {
-        self.input = input
-    }
- 
-    
-    func getToken() -> Token {
-        input.skip { $0.isSpace }
+    mutating func getToken() -> Token {
+        while curChar?.isSpace == true {
+            curChar = input.next()
+        }
         
-        let processor = getInputProcessor(for: input.peekChar())
-        
-        return processor.identifyToken(using: input)
-    }
-    
-    func getInputProcessor(for character: Character) -> InputProcessor {
-        if character.isAlpha {
-            return AlphaProcessor()
+        switch curChar {
+            
+        case ("a" ..< "z")?:
+            fallthrough
+        case ("A" ..< "Z")?:
+            return lexIdentifier()
+            
+        case "(": return punctuator(.lParen)
+        case ")": return punctuator(.rParen)
+        case "{": return punctuator(.lBrace)
+        case "}": return punctuator(.rBrace)
+            
+        case ":": return punctuator(.colon)
+            
+        case "=": return lexOperator()
+            
+        default:
+            print("Unknown character '\(curChar as Any)'")
+            fatalError()
+            
         }
         
         
-        
-        fatalError("|\(character)|")
+//        if let t = recognizePunctuator() { curChar = input.next(); return t }
+//
+//        if curChar?.isAlpha == true {
+//            var identifier = ""
+//
+//            while curChar?.isAlpha == true {
+//                identifier.append(curChar!)
+//                curChar = input.next()
+//            }
+//
+//            if let t = recognizeKeyword(identifier: identifier) { return t }
+//
+//            return .identifier(identifier)
+//        }
+//
+//        guard curChar != nil else { return .eof }
+//
+//        defer { curChar = input.next() }
+//        return .any(curChar!)
+//
+//        print("Unknown character '\(curChar as Any)'")
+//        fatalError()
     }
+    
+//    private func recognizeKeyword(identifier: String) -> Token? {
+//        switch identifier {
+//
+//        case "func": return .func
+//        case "let": return .let
+//
+//        default: return nil
+//
+//        }
+//    }
+    
+//    private func recognizePunctuator() -> Token? {
+//        switch curChar {
+//
+//        case "(": return .lParen
+//        case ")": return .rParen
+//        case "{": return .lBrace
+//        case "}": return .rBrace
+//
+//        case "=": return .equal
+//
+//        case "\"": return .stringQuote
+//
+//        case ":": return .colon
+//
+//        default: return nil
+//
+//        }
+//    }
     
 }
