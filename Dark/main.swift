@@ -18,7 +18,7 @@ func test(name: String) {
 }
 test(name: "Andrea")
 """
-var _lexer = Lexer(input: code.makeIterator())
+var _lexer = Lexer(input: code)
 
 while let t = Optional(_lexer.getToken()), !t.isEof {
     print("*** got token:", t)
