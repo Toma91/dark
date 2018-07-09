@@ -10,6 +10,10 @@ import Foundation
 
 print("Hello, World!")
 
+func unimpl(function: String = #function) -> Never {
+    fatalError("\(function): not implemented yet")
+}
+
 
 let code = """
 func test(name: String) {
@@ -18,7 +22,7 @@ func test(name: String) {
 }
 test(name: "Andrea")
 """
-var _lexer = Lexer(input: code)
+var _lexer = Lexer(buffer: code)
 
 while let t = Optional(_lexer.getToken()), !t.isEof {
     print("*** got token:", t)
