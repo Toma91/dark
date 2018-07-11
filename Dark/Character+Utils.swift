@@ -6,7 +6,7 @@
 //  Copyright © 2018 Weedea. All rights reserved.
 //
 
-extension Character {
+extension Swift.Character {
     
     var isAlpha: Bool {
         switch self {

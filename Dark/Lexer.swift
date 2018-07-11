@@ -22,32 +22,31 @@ extension Lexer {
     }
     
     mutating func getToken() -> Token {
-        while buffer[index].isSpace {
-            buffer.formIndex(after: &index)
+        if skip(while: { $0.isSpace }) {
+            return Eof()
         }
         
         switch buffer[index] {
-            
-        case "A" ... "Z": fallthrough
+        
         case "a" ... "z": return lexIdentifier()
             
-        case "(": return punctuator(.lParen)
-        case ")": return punctuator(.rParen)
-        case "{": return punctuator(.lBrace)
-        case "}": return punctuator(.rBrace)
-            
-        case ":": return punctuator(.colon)
-            
-        case "=": return `operator`(.equal)
-        case "+": return `operator`(.plus)
-            
-        case "\"": return lexStringLiteral()
-            
-        default: print("Unknown character '\(buffer[index])'")
-            
+        default: print("unknown char '\(buffer[index])'")
+        
         }
-
+        
         unimpl()
+    }
+    
+}
+
+private extension Lexer {
+
+    mutating func skip(while predicate: (Character) -> Bool) -> Bool {
+        while index < buffer.endIndex && predicate(buffer[index]) {
+            buffer.formIndex(after: &index)
+        }
+        
+        return index == buffer.endIndex
     }
     
 }
@@ -62,7 +61,7 @@ private extension Lexer {
             buffer.formIndex(after: &index)
         } while buffer[index].isAlphaNum
         
-        return Keyword(rawValue: identifier) ?? Identifier(identifier)        
+        return Keyword(rawValue: identifier) ?? Identifier(identifier)
     }
     
     mutating func `operator`(_ o: Operator) -> Token {
@@ -77,33 +76,33 @@ private extension Lexer {
     
 }
 
-private extension Lexer {
-
-    mutating func lexStringCharacter() -> Character? {
-        buffer.formIndex(after: &index)
-
-        switch buffer[index] {
-        
-        case "\"": return nil
-            
-        default: return buffer[index]
-        
-        }
-    }
-    
-    mutating func lexStringLiteral() -> Token {
-        var s = ""
-        
-        while let c = lexStringCharacter() {
-            s.append(c)
-        }
-        
-        buffer.formIndex(after: &index)
-        
-        return s
-    }
-    
-}
+//private extension Lexer {
+//
+//    mutating func lexStringCharacter() -> Character? {
+//        buffer.formIndex(after: &index)
+//
+//        switch buffer[index] {
+//        
+//        case "\"": return nil
+//            
+//        default: return buffer[index]
+//        
+//        }
+//    }
+//    
+//    mutating func lexStringLiteral() -> Token {
+//        var s = ""
+//        
+//        while let c = lexStringCharacter() {
+//            s.append(c)
+//        }
+//        
+//        buffer.formIndex(after: &index)
+//        
+//        return s
+//    }
+//    
+//}
 
 
 
