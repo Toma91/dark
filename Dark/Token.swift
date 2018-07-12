@@ -8,6 +8,8 @@
 
 protocol Token {
     
+    func `is`(_ t: Token) -> Bool
+
 }
 
 extension Token {
@@ -20,19 +22,47 @@ extension Token {
 
 struct Eof: Token {
     
+    func `is`(_ t: Token) -> Bool {
+        return t is Eof
+    }
+    
 }
 
-enum Keyword: String, Token {
+enum Keyword: String {
 
     case `func`
     case `let`
 
 }
 
+extension Keyword: Token {
+    
+    func `is`(_ t: Token) -> Bool {
+        guard let t = t as? Keyword else { return false }
+        
+        return self == t
+    }
+    
+}
+
 struct Identifier: Token {
 
     let identifier: String
 
+    func `is`(_ t: Token) -> Bool {
+        guard let t = t as? Identifier else { return false }
+        
+        return self.identifier == t.identifier
+    }
+    
+}
+
+extension Token {
+    
+    var isIdentifier: Bool {
+        return self is Identifier
+    }
+    
 }
 
 extension Identifier {
@@ -43,14 +73,24 @@ extension Identifier {
 
 }
 
-enum Operator: Token {
+enum Operator {
     
     case equal
     case plus
     
 }
 
-enum Punctuator: Token {
+extension Operator: Token {
+ 
+    func `is`(_ t: Token) -> Bool {
+        guard let t = t as? Operator else { return false }
+        
+        return self == t
+    }
+    
+}
+
+enum Punctuator {
 
     case lParen
     case rParen
@@ -61,7 +101,25 @@ enum Punctuator: Token {
     
 }
 
-extension String: Token { }
+extension Punctuator: Token {
+    
+    func `is`(_ t: Token) -> Bool {
+        guard let t = t as? Punctuator else { return false }
+        
+        return self == t
+    }
+    
+}
+
+extension String: Token {
+    
+    func `is`(_ t: Token) -> Bool {
+        guard let t = t as? String else { return false }
+        
+        return self == t
+    }
+    
+}
 
 
 

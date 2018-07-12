@@ -22,15 +22,18 @@ func test(name: String) {
 }
 test(name: "Andrea")
 """
-var _lexer = Lexer(buffer: code)
+/*var _lexer = Lexer(buffer: code)
 
 while let t = Optional(_lexer.getToken()), !t.isEof {
     print("*** got token:", t)
-}
+}*/
 
-
-
-
+var l = Lexer(buffer: code)
+print(l.currentToken)
+l.lex()
+print(l.currentToken)
+//var p = Parser(lexer: l)
+//try p.parseTopLevelExpression()
 
 
 

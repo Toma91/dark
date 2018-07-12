@@ -12,6 +12,7 @@
 		65158B7920E503C100218BFE /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B7820E503C100218BFE /* Lexer.swift */; };
 		65158B7B20E5047300218BFE /* Character+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B7A20E5047300218BFE /* Character+Utils.swift */; };
 		651ADF3E20F62D3300A3144F /* Grammar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651ADF3D20F62D3300A3144F /* Grammar.swift */; };
+		654329AE20F7EC9300E599F0 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654329AD20F7EC9300E599F0 /* Parser.swift */; };
 		65706B3520F21251007E2467 /* IteratorProtocol+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65706B3420F21251007E2467 /* IteratorProtocol+Utils.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		65158B7820E503C100218BFE /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 		65158B7A20E5047300218BFE /* Character+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character+Utils.swift"; sourceTree = "<group>"; };
 		651ADF3D20F62D3300A3144F /* Grammar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grammar.swift; sourceTree = "<group>"; };
+		654329AD20F7EC9300E599F0 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		65706B3420F21251007E2467 /* IteratorProtocol+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IteratorProtocol+Utils.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -73,6 +75,7 @@
 				65158B7820E503C100218BFE /* Lexer.swift */,
 				65158B7620E5039000218BFE /* Token.swift */,
 				651ADF3D20F62D3300A3144F /* Grammar.swift */,
+				654329AD20F7EC9300E599F0 /* Parser.swift */,
 			);
 			path = Dark;
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 				65158B7920E503C100218BFE /* Lexer.swift in Sources */,
 				65158B7720E5039000218BFE /* Token.swift in Sources */,
 				651ADF3E20F62D3300A3144F /* Grammar.swift in Sources */,
+				654329AE20F7EC9300E599F0 /* Parser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

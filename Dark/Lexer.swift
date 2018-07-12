@@ -6,12 +6,22 @@
 //  Copyright © 2018 Weedea. All rights reserved.
 //
 
+extension Collection where Element == Character {
+    
+    func collect() -> String {
+        return reduce(into: "") { $0.append($1) }
+    }
+    
+}
+
 struct Lexer<Buffer: BidirectionalCollection> where Buffer.Element == Character {
-    
+
     private let buffer: Buffer
-    
+
     private var index: Buffer.Index
-    
+
+    private(set) var currentToken: Token = Eof()
+
 }
 
 extension Lexer {
@@ -19,20 +29,25 @@ extension Lexer {
     init(buffer: Buffer) {
         self.buffer = buffer
         self.index = buffer.startIndex
-    }
-    
-    mutating func getToken() -> Token {
-        if skip(while: { $0.isSpace }) {
-            return Eof()
-        }
         
+        lex()
+    }
+ 
+    mutating func lex() {
+        skipSpaces()
+     
+        guard index != buffer.endIndex else { return currentToken = Eof() }
+     
         switch buffer[index] {
         
-        case "a" ... "z": return lexIdentifier()
+        case "a" ... "z": fallthrough
+        case "A" ... "Z": return lexIdentifier()
             
-        default: print("unknown char '\(buffer[index])'")
-        
+        default: break
+            
         }
+        
+        print("*** character", buffer[index])
         
         unimpl()
     }
@@ -41,40 +56,115 @@ extension Lexer {
 
 private extension Lexer {
 
-    mutating func skip(while predicate: (Character) -> Bool) -> Bool {
-        while index < buffer.endIndex && predicate(buffer[index]) {
-            buffer.formIndex(after: &index)
+    mutating func lexIdentifier() {
+        guard buffer[index].isAlpha else {
+            fatalError("Invalid identifier start character '\(buffer[index])'")
         }
         
-        return index == buffer.endIndex
+        let id = buffer[index...]
+            .index { !$0.isAlphaNum }
+            .map { buffer[index ..< $0].collect() }
+            ?? buffer[index...].collect()
+        
+        _ = buffer.formIndex(&index, offsetBy: id.count, limitedBy: buffer.endIndex)
+        
+        currentToken = Keyword(rawValue: id) ?? Identifier(id)        
     }
     
 }
 
 private extension Lexer {
     
-    mutating func lexIdentifier() -> Token {
-        var identifier = ""
-        
-        repeat {
-            identifier.append(buffer[index])
-            buffer.formIndex(after: &index)
-        } while buffer[index].isAlphaNum
-        
-        return Keyword(rawValue: identifier) ?? Identifier(identifier)
-    }
-    
-    mutating func `operator`(_ o: Operator) -> Token {
-        buffer.formIndex(after: &index)
-        return o
-    }
-    
-    mutating func punctuator(_ p: Punctuator) -> Token {
-        buffer.formIndex(after: &index)
-        return p
+    mutating func skipSpaces() {
+        while index < buffer.endIndex && buffer[index].isSpace {
+            guard
+                buffer.formIndex(&index, offsetBy: 1, limitedBy: buffer.endIndex)
+                else{ return }
+        }
     }
     
 }
+
+
+
+
+//struct Lexer<Buffer: BidirectionalCollection> where Buffer.Element == Character {
+//
+//    private let buffer: Buffer
+//
+//    private var index: Buffer.Index
+//
+//}
+//
+//extension Lexer {
+//
+//    init(buffer: Buffer) {
+//        self.buffer = buffer
+//        self.index = buffer.startIndex
+//    }
+//
+//    mutating func getChar() -> Character? {
+//        if skip(while: { $0.isSpace }) { return nil }
+//
+//        defer { buffer.formIndex(after: &index) }
+//
+//        return buffer[index]
+//    }
+//
+//    mutating func getToken() -> Token {
+//        if skip(while: { $0.isSpace }) {
+//            return Eof()
+//        }
+//
+//        switch buffer[index] {
+//
+//        case "a" ... "z": return lexIdentifier()
+//
+//        default: print("unknown char '\(buffer[index])'")
+//
+//        }
+//
+//        unimpl()
+//    }
+//
+//}
+//
+//private extension Lexer {
+//
+//    mutating func skip(while predicate: (Character) -> Bool) -> Bool {
+//        while index < buffer.endIndex && predicate(buffer[index]) {
+//            buffer.formIndex(after: &index)
+//        }
+//
+//        return index == buffer.endIndex
+//    }
+//
+//}
+//
+//private extension Lexer {
+//
+//    mutating func lexIdentifier() -> Token {
+//        var identifier = ""
+//
+//        repeat {
+//            identifier.append(buffer[index])
+//            buffer.formIndex(after: &index)
+//        } while buffer[index].isAlphaNum
+//
+//        return Keyword(rawValue: identifier) ?? Identifier(identifier)
+//    }
+//
+//    mutating func `operator`(_ o: Operator) -> Token {
+//        buffer.formIndex(after: &index)
+//        return o
+//    }
+//
+//    mutating func punctuator(_ p: Punctuator) -> Token {
+//        buffer.formIndex(after: &index)
+//        return p
+//    }
+//
+//}
 
 //private extension Lexer {
 //
