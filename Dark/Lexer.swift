@@ -43,6 +43,9 @@ extension Lexer {
         case "a" ... "z": fallthrough
         case "A" ... "Z": return lexIdentifier()
             
+        case "(": return lex(punctuator: .lParen)
+        case ")": return lex(punctuator: .rParen)
+
         default: break
             
         }
@@ -69,6 +72,11 @@ private extension Lexer {
         _ = buffer.formIndex(&index, offsetBy: id.count, limitedBy: buffer.endIndex)
         
         currentToken = Keyword(rawValue: id) ?? Identifier(id)        
+    }
+    
+    mutating func lex(punctuator: Punctuator) {
+        currentToken = punctuator
+        _ = buffer.formIndex(&index, offsetBy: 1, limitedBy: buffer.endIndex)
     }
     
 }

@@ -13,6 +13,10 @@
 		65158B7B20E5047300218BFE /* Character+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B7A20E5047300218BFE /* Character+Utils.swift */; };
 		651ADF3E20F62D3300A3144F /* Grammar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651ADF3D20F62D3300A3144F /* Grammar.swift */; };
 		654329AE20F7EC9300E599F0 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654329AD20F7EC9300E599F0 /* Parser.swift */; };
+		65576B8B20F8DB3D00F3599A /* Keyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65576B8A20F8DB3D00F3599A /* Keyword.swift */; };
+		65576B8D20F8DB6000F3599A /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65576B8C20F8DB6000F3599A /* Identifier.swift */; };
+		65576B8F20F8DB7D00F3599A /* Punctuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65576B8E20F8DB7D00F3599A /* Punctuator.swift */; };
+		65576B9120F8DBDF00F3599A /* Eof.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65576B9020F8DBDF00F3599A /* Eof.swift */; };
 		65706B3520F21251007E2467 /* IteratorProtocol+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65706B3420F21251007E2467 /* IteratorProtocol+Utils.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +40,10 @@
 		65158B7A20E5047300218BFE /* Character+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character+Utils.swift"; sourceTree = "<group>"; };
 		651ADF3D20F62D3300A3144F /* Grammar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grammar.swift; sourceTree = "<group>"; };
 		654329AD20F7EC9300E599F0 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		65576B8A20F8DB3D00F3599A /* Keyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyword.swift; sourceTree = "<group>"; };
+		65576B8C20F8DB6000F3599A /* Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
+		65576B8E20F8DB7D00F3599A /* Punctuator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Punctuator.swift; sourceTree = "<group>"; };
+		65576B9020F8DBDF00F3599A /* Eof.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eof.swift; sourceTree = "<group>"; };
 		65706B3420F21251007E2467 /* IteratorProtocol+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IteratorProtocol+Utils.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,15 +77,27 @@
 		65158B6E20E5034F00218BFE /* Dark */ = {
 			isa = PBXGroup;
 			children = (
+				65576B8520F8D89100F3599A /* Token */,
 				65158B6F20E5034F00218BFE /* main.swift */,
 				65158B7A20E5047300218BFE /* Character+Utils.swift */,
 				65706B3420F21251007E2467 /* IteratorProtocol+Utils.swift */,
 				65158B7820E503C100218BFE /* Lexer.swift */,
-				65158B7620E5039000218BFE /* Token.swift */,
 				651ADF3D20F62D3300A3144F /* Grammar.swift */,
 				654329AD20F7EC9300E599F0 /* Parser.swift */,
 			);
 			path = Dark;
+			sourceTree = "<group>";
+		};
+		65576B8520F8D89100F3599A /* Token */ = {
+			isa = PBXGroup;
+			children = (
+				65576B9020F8DBDF00F3599A /* Eof.swift */,
+				65576B8A20F8DB3D00F3599A /* Keyword.swift */,
+				65576B8C20F8DB6000F3599A /* Identifier.swift */,
+				65576B8E20F8DB7D00F3599A /* Punctuator.swift */,
+				65158B7620E5039000218BFE /* Token.swift */,
+			);
+			path = Token;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,10 +158,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				65706B3520F21251007E2467 /* IteratorProtocol+Utils.swift in Sources */,
+				65576B9120F8DBDF00F3599A /* Eof.swift in Sources */,
+				65576B8D20F8DB6000F3599A /* Identifier.swift in Sources */,
 				65158B7020E5034F00218BFE /* main.swift in Sources */,
+				65576B8F20F8DB7D00F3599A /* Punctuator.swift in Sources */,
 				65158B7B20E5047300218BFE /* Character+Utils.swift in Sources */,
 				65158B7920E503C100218BFE /* Lexer.swift in Sources */,
 				65158B7720E5039000218BFE /* Token.swift in Sources */,
+				65576B8B20F8DB3D00F3599A /* Keyword.swift in Sources */,
 				651ADF3E20F62D3300A3144F /* Grammar.swift in Sources */,
 				654329AE20F7EC9300E599F0 /* Parser.swift in Sources */,
 			);

@@ -29,9 +29,11 @@ while let t = Optional(_lexer.getToken()), !t.isEof {
 }*/
 
 var l = Lexer(buffer: code)
-print(l.currentToken)
-l.lex()
-print(l.currentToken)
+while true {
+    print(l.currentToken)
+    l.lex()
+}
+
 //var p = Parser(lexer: l)
 //try p.parseTopLevelExpression()
 
