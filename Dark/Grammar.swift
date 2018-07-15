@@ -6,107 +6,336 @@
 //  Copyright © 2018 Weedea. All rights reserved.
 //
 
-postfix operator *
-
-postfix func *(rhs: Any) { }
-
-func Grammar() {
-    var code_block: Any = "code_block"
-    var declaration: Any = "declaration"
-    var function_body: Any = "function_body"
-    var function_declaration: Any = "function_declaration"
-    var function_name: Any = "function_name"
-    var function_result: Any = "function_result"
-    var function_signature: Any = "function_signature"
-    var identifier: Any = "identifier"
-    var identifier_character: Any = "identifier_character"
-    var identifier_head: Any = "identifier_head"
-    var parameter: Any = "parameter"
-    var parameter_clause: Any = "parameter_clause"
-    var parameter_list: Any = "parameter_list"
-    var parameter_name: Any = "parameter_name"
-    var statement: Any = "statement"
-    var top_level_declaration: Any = "top_level_declaration"
-    var type: Any = "type"
-    var type_annotation: Any = "type_annotation"
+enum Grammar {
+    
+    typealias KW_FUNC = Void
+    typealias KW_STRUCT = Void
 
     
-    code_block = [
-        ["{", statement*, "}"]
-    ]
+    typealias PUNC_LPAREN = Void
+    typealias PUNC_RPAREN = Void
+    typealias PUNC_LBRACE = Void
+    typealias PUNC_RBRACE = Void
+
+    typealias PUNC_COMMA = Void
+    typealias PUNC_COLON = Void
     
-    declaration = [
-        function_declaration
-    ]
+    typealias PUNC_ARROW = Void
+
     
-    function_body = [
-        code_block
-    ]
+    enum CodeBlock {
+        
+        case _0(PUNC_LBRACE, [Statement], PUNC_RBRACE)
+        
+    }
     
-    function_declaration = [
-        ["func", function_name, function_signature, function_body]
-    ]
+    enum Declaration {
+        
+        case _0(FunctionDeclaration)
+        case _1(StructDeclaration)
+        
+    }
     
-    function_name = [
-        identifier
-    ]
+    enum FunctionBody {
+        
+        case _0(CodeBlock)
+        
+    }
     
-    function_result = [
-        ["->", type]
-    ]
+    enum FunctionDeclaration {
+        
+        case _0(KW_FUNC, FunctionName, FunctionSignature, FunctionBody)
+        
+    }
     
-    function_signature = [
-        [parameter_clause, function_result]
-    ]
+    enum FunctionName {
+        
+        case _0(Identifier)
+        
+    }
+
+    enum FunctionResult {
     
-    identifier = [
-        [identifier_head, identifier_character*]
-    ]
+        case _0(PUNC_ARROW, Type)
+        
+    }
     
-    identifier_character = [
-        "[a-z]",
-        "[A-Z]",
-        "[0-9]",
-        "_"
-    ]
+    enum FunctionSignature {
+        
+        case _0(ParameterClause, FunctionResult?)
+        
+    }
     
-    identifier_head = [
-        "[a-z]",
-        "[A-Z]",
-        "_"
-    ]
+    enum Identifier {
+        
+        case _0(IdentifierHead, [IdentifierCharacter])
+        
+    }
+   
+    enum IdentifierCharacter: String {
     
-    parameter = [
-        [parameter_name, type_annotation]
-    ]
+        case _0 = "a ... z"
+        case _1 = "A ... Z"
+        case _2 = "0 ... 9"
+        case _3 = "_"
+        
+    }
+   
+    enum IdentifierHead: String {
+        
+        case _0 = "a ... z"
+        case _1 = "A ... Z"
+        case _3 = "_"
+
+    }
+
+    enum Parameter {
     
-    parameter_clause = [
-        ["(", ")"],
-        ["(", parameter_list, ")"]
-    ]
+        case _0(ParameterName, TypeAnnotation)
+        
+    }
     
-    parameter_name = [
-        identifier
-    ]
+    enum ParameterClause {
+        
+        case _0(PUNC_LPAREN, ParameterList?, PUNC_RPAREN)
+        
+    }
     
-    parameter_list = [
-        parameter,
-        [parameter, ",", parameter_list]
-    ]
+    indirect enum ParameterList {
+   
+        case _0(Parameter)
+        case _1(Parameter, PUNC_COMMA, ParameterList)
+        
+    }
     
-    statement = [
-        declaration
-    ]
+    enum ParameterName {
+   
+        case _0(Identifier)
+        
+    }
     
-    top_level_declaration = [
-        statement*
-    ]
+    enum Statement {
     
-    type = [
-        identifier
-    ]
+        case _0(Declaration)
+        
+    }
     
-    type_annotation = [
-        [":", type]
-    ]
+    enum StructBody {
+    
+        case _0(PUNC_LBRACE, [StructMember], PUNC_RBRACE)
+
+    }
+    
+    enum StructDeclaration {
+        
+        case _0(KW_STRUCT, StructName, StructBody)
+        
+    }
+    
+    enum StructMember {
+        
+        case _0(Declaration)
+        
+    }
+    
+    enum StructName {
+    
+        case _0(Identifier)
+
+    }
+    
+    enum TopLevelDeclaration {
+        
+        case _0([Statement])
+        
+    }
+
+    enum `Type` {
+    
+        case _0(TypeIdentifier)
+        
+    }
+    
+    enum TypeAnnotation {
+        
+        case _0(PUNC_COLON, Type)
+        
+    }
+    
+    enum TypeIdentifier {
+        
+        case _0(Identifier)
+        
+    }
+    
+    
+    
+    
+    
+    //postfix operator *
+    //
+    //postfix func *(rhs: Any) { }
+    //
+    //func Grammar() {
+    //    var code_block: Any = "code_block"
+    //
+    //    var declaration: Any = "declaration"
+    //
+    //    var expression: Any = "expression"
+    //    var function_call_expression: Any = "function_call_expression"
+    //    var function_call_argument: Any = "function_call_argument"
+    //    var function_call_argument_list: Any = "function_call_argument_list"
+    //    var function_call_arguments_clause: Any = "function_call_arguments_clause"
+    //
+    //    var function_body: Any = "function_body"
+    //    var function_declaration: Any = "function_declaration"
+    //    var function_name: Any = "function_name"
+    //    var function_result: Any = "function_result"
+    //    var function_signature: Any = "function_signature"
+    //
+    //    var identifier: Any = "identifier"
+    //    var identifier_character: Any = "identifier_character"
+    //    var identifier_head: Any = "identifier_head"
+    //
+    //    var parameter: Any = "parameter"
+    //    var parameter_clause: Any = "parameter_clause"
+    //    var parameter_list: Any = "parameter_list"
+    //    var parameter_name: Any = "parameter_name"
+    //
+    //    var statement: Any = "statement"
+    //
+    //    var struct_body: Any = "struct_body"
+    //    var struct_declaration: Any = "struct_declaration"
+    //    var struct_member: Any = "struct_member"
+    //    var struct_name: Any = "struct_name"
+    //
+    //    var top_level_declaration: Any = "top_level_declaration"
+    //
+    //    var type: Any = "type"
+    //    var type_annotation: Any = "type_annotation"
+    //
+    //
+    //    code_block = [
+    //        ["{", statement*, "}"]
+    //    ]
+    //
+    //    declaration = [
+    //        function_declaration,
+    //        struct_declaration
+    //    ]
+    //
+    //    expression = [
+    //        function_call_expression
+    //    ]
+    //
+    //    function_body = [
+    //        code_block
+    //    ]
+    //
+    //    function_call_argument = [
+    //        expression,
+    //        [identifier, ":", expression]
+    //    ]
+    //
+    //    function_call_argument_list = [
+    //        function_call_argument,
+    //        [function_call_argument, ",", function_call_argument_list]
+    //    ]
+    //
+    //    function_call_arguments_clause = [
+    //        ["(", ")"],
+    //        ["(", function_call_argument_list, ")"]
+    //    ]
+    //
+    //    function_call_expression = [
+    //        [expression, function_call_arguments_clause]
+    //    ]
+    //
+    //    function_declaration = [
+    //        ["func", function_name, function_signature, function_body]
+    //    ]
+    //
+    //    function_name = [
+    //        identifier
+    //    ]
+    //
+    //    function_result = [
+    //        ["->", type]
+    //    ]
+    //
+    //    function_signature = [
+    //        [parameter_clause, function_result]
+    //    ]
+    //
+    //    identifier = [
+    //        [identifier_head, identifier_character*]
+    //    ]
+    //
+    //    identifier_character = [
+    //        "[a-z]",
+    //        "[A-Z]",
+    //        "[0-9]",
+    //        "_"
+    //    ]
+    //
+    //    identifier_head = [
+    //        "[a-z]",
+    //        "[A-Z]",
+    //        "_"
+    //    ]
+    //
+    //    parameter = [
+    //        [parameter_name, type_annotation]
+    //    ]
+    //
+    //    parameter_clause = [
+    //        ["(", ")"],
+    //        ["(", parameter_list, ")"]
+    //    ]
+    //
+    //    parameter_name = [
+    //        identifier
+    //    ]
+    //
+    //    parameter_list = [
+    //        parameter,
+    //        [parameter, ",", parameter_list]
+    //    ]
+    //
+    //    statement = [
+    //        declaration,
+    //        expression
+    //    ]
+    //
+    //    struct_body = [
+    //        ["{", struct_member*, "}"]
+    //    ]
+    //
+    //    struct_declaration = [
+    //        ["struct", struct_name, struct_body]
+    //    ]
+    //
+    //    struct_member = [
+    //        declaration
+    //    ]
+    //
+    //    struct_name = [
+    //        identifier
+    //    ]
+    //
+    //    top_level_declaration = [
+    //        statement*
+    //    ]
+    //
+    //    type = [
+    //        identifier
+    //    ]
+    //
+    //    type_annotation = [
+    //        [":", type]
+    //    ]
+    //
+    //    print(top_level_declaration)
+    //}
 }
+
