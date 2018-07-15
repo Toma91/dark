@@ -41,10 +41,16 @@ extension Lexer {
         switch buffer[index] {
         
         case "a" ... "z": fallthrough
-        case "A" ... "Z": return lexIdentifier()
+        case "A" ... "Z": fallthrough
+        case "_": return lexIdentifier()
             
         case "(": return lex(punctuator: .lParen)
         case ")": return lex(punctuator: .rParen)
+        case "{": return lex(punctuator: .lBrace)
+        case "}": return lex(punctuator: .rBrace)
+        case ",": return lex(punctuator: .comma)
+        case ":": return lex(punctuator: .colon)
+        case "-": return lex(punctuator: .arrow)
 
         default: break
             
@@ -75,6 +81,13 @@ private extension Lexer {
     }
     
     mutating func lex(punctuator: Punctuator) {
+        if punctuator == .arrow {
+            guard
+                buffer.formIndex(&index, offsetBy: 1, limitedBy: buffer.endIndex),
+                buffer[index] == ">"
+                else { fatalError("Not a valid arrow") }
+        }
+        
         currentToken = punctuator
         _ = buffer.formIndex(&index, offsetBy: 1, limitedBy: buffer.endIndex)
     }

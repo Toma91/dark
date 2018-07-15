@@ -16,11 +16,10 @@ func unimpl(function: String = #function) -> Never {
 
 
 let code = """
-func test(name: String) {
-  let value = "Hello "
-  print(value + name)
+func test(name: String) -> Void {
+    print(name)
 }
-test(name: "Andrea")
+test(name: characterName)
 """
 /*var _lexer = Lexer(buffer: code)
 
@@ -29,13 +28,8 @@ while let t = Optional(_lexer.getToken()), !t.isEof {
 }*/
 
 var l = Lexer(buffer: code)
-while true {
-    print(l.currentToken)
-    l.lex()
-}
-
-//var p = Parser(lexer: l)
-//try p.parseTopLevelExpression()
+var p = Parser(lexer: l)
+try p.parseTopLevelExpression()
 
 
 

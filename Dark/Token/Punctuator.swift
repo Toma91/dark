@@ -6,10 +6,17 @@
 //  Copyright © 2018 Weedea. All rights reserved.
 //
 
-enum Punctuator: Character {
+enum Punctuator {
     
-    case lParen = "("
-    case rParen = ")"
+    case lParen     // (
+    case rParen     // )
+    case lBrace     // {
+    case rBrace     // }
+
+    case comma      // ,    
+    case colon      // :
+    
+    case arrow      // ->
     
 }
 
