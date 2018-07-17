@@ -7,62 +7,50 @@
 //
 
 enum Grammar {
+
+    typealias CHAR_UNDERSCORE = Void
     
-    typealias KW_FUNC = Void
-    typealias KW_STRUCT = Void
+    
+    typealias PUNC_EQUAL = Void
+    typealias PUNC_DOUBLE_QUOTE = Void
 
     
-    typealias PUNC_LPAREN = Void
-    typealias PUNC_RPAREN = Void
-    typealias PUNC_LBRACE = Void
-    typealias PUNC_RBRACE = Void
-
-    typealias PUNC_COMMA = Void
-    typealias PUNC_COLON = Void
-    
-    typealias PUNC_ARROW = Void
-
-    
-    enum CodeBlock {
+    enum AssignmentExpression {
         
-        case _0(PUNC_LBRACE, [Statement], PUNC_RBRACE)
+    }
+    
+    enum DecimalDigit: String {
+        
+        case _0 = "Numbers 0 ... 9"
+        
+    }
+    
+    enum DecimalLiteralCharacter {
+        
+        case _0(DecimalDigit)
+        case _1(CHAR_UNDERSCORE)
         
     }
     
     enum Declaration {
         
         case _0(FunctionDeclaration)
-        case _1(StructDeclaration)
         
     }
-    
-    enum FunctionBody {
+
+    enum Expression {
         
-        case _0(CodeBlock)
+        case _0(AssignmentExpression)
+        case _1(FunctionCallExpression)
+        case _2(PrimaryExpression)
+
+    }
+
+    enum FunctionCallExpression {
         
     }
     
     enum FunctionDeclaration {
-        
-        case _0(KW_FUNC, FunctionName, FunctionSignature, FunctionBody)
-        
-    }
-    
-    enum FunctionName {
-        
-        case _0(Identifier)
-        
-    }
-
-    enum FunctionResult {
-    
-        case _0(PUNC_ARROW, Type)
-        
-    }
-    
-    enum FunctionSignature {
-        
-        case _0(ParameterClause, FunctionResult?)
         
     }
     
@@ -71,102 +59,239 @@ enum Grammar {
         case _0(IdentifierHead, [IdentifierCharacter])
         
     }
-   
-    enum IdentifierCharacter: String {
     
+    enum IdentifierCharacter: String {
+        
         case _0 = "a ... z"
         case _1 = "A ... Z"
         case _2 = "0 ... 9"
         case _3 = "_"
         
     }
-   
+    
     enum IdentifierHead: String {
         
         case _0 = "a ... z"
         case _1 = "A ... Z"
         case _3 = "_"
-
-    }
-
-    enum Parameter {
-    
-        case _0(ParameterName, TypeAnnotation)
         
     }
     
-    enum ParameterClause {
+    enum IntegerLiteral {
         
-        case _0(PUNC_LPAREN, ParameterList?, PUNC_RPAREN)
-        
-    }
-    
-    indirect enum ParameterList {
-   
-        case _0(Parameter)
-        case _1(Parameter, PUNC_COMMA, ParameterList)
+        case _0(DecimalDigit, [DecimalLiteralCharacter])
         
     }
     
-    enum ParameterName {
-   
-        case _0(Identifier)
+    enum Literal {
         
-    }
-    
-    enum Statement {
-    
-        case _0(Declaration)
-        
-    }
-    
-    enum StructBody {
-    
-        case _0(PUNC_LBRACE, [StructMember], PUNC_RBRACE)
+        case _0(StringLiteral)
+        case _1(IntegerLiteral)
 
     }
     
-    enum StructDeclaration {
+    enum PrimaryExpression {
         
-        case _0(KW_STRUCT, StructName, StructBody)
+        case _0(Literal)
         
     }
     
-    enum StructMember {
+    enum StringLiteral {
+        
+        case _0(PUNC_DOUBLE_QUOTE, [StringLiteralCharacter], PUNC_DOUBLE_QUOTE)
+        
+    }
+    
+    enum StringLiteralCharacter: String {
+
+        case _0 = "Almost any character (no new line, no unescaped characters, ...)"
+        case _1 = "\\"
+        case _2 = "\""
+
+    }
+    
+    enum TopLevelExpression {
         
         case _0(Declaration)
-        
-    }
-    
-    enum StructName {
-    
-        case _0(Identifier)
+        case _1(Expression)
 
     }
     
-    enum TopLevelDeclaration {
-        
-        case _0([Statement])
-        
-    }
-
-    enum `Type` {
     
-        case _0(TypeIdentifier)
-        
-    }
     
-    enum TypeAnnotation {
-        
-        case _0(PUNC_COLON, Type)
-        
-    }
-    
-    enum TypeIdentifier {
-        
-        case _0(Identifier)
-        
-    }
+//
+//
+//
+//
+//
+//
+//    typealias KW_FUNC = Void
+//    typealias KW_STRUCT = Void
+//    typealias KW_LET = Void
+//
+//
+//    typealias PUNC_LPAREN = Void
+//    typealias PUNC_RPAREN = Void
+//    typealias PUNC_LBRACE = Void
+//    typealias PUNC_RBRACE = Void
+//
+//    typealias PUNC_COMMA = Void
+//    typealias PUNC_COLON = Void
+//
+//    typealias PUNC_ARROW = Void
+//
+//
+//    enum CodeBlock {
+//
+//        case _0(PUNC_LBRACE, [Statement], PUNC_RBRACE)
+//
+//    }
+//
+//    enum ConstantDeclaration {
+//
+//        case _0(KW_LET, Identifier, TypeAnnotation?)
+//
+//    }
+//
+//    enum Declaration {
+//
+//        case _0(FunctionDeclaration)
+//        case _1(StructDeclaration)
+//        case _2(ConstantDeclaration)
+//
+//    }
+//
+//    enum FunctionBody {
+//
+//        case _0(CodeBlock)
+//
+//    }
+//
+//    enum FunctionDeclaration {
+//
+//        case _0(KW_FUNC, FunctionName, FunctionSignature, FunctionBody)
+//
+//    }
+//
+//    enum FunctionName {
+//
+//        case _0(Identifier)
+//
+//    }
+//
+//    enum FunctionResult {
+//
+//        case _0(PUNC_ARROW, Type)
+//
+//    }
+//
+//    enum FunctionSignature {
+//
+//        case _0(ParameterClause, FunctionResult?)
+//
+//    }
+//
+//    enum Identifier {
+//
+//        case _0(IdentifierHead, [IdentifierCharacter])
+//
+//    }
+//
+//    enum IdentifierCharacter: String {
+//
+//        case _0 = "a ... z"
+//        case _1 = "A ... Z"
+//        case _2 = "0 ... 9"
+//        case _3 = "_"
+//
+//    }
+//
+//    enum IdentifierHead: String {
+//
+//        case _0 = "a ... z"
+//        case _1 = "A ... Z"
+//        case _3 = "_"
+//
+//    }
+//
+//    enum Parameter {
+//
+//        case _0(ParameterName, TypeAnnotation)
+//
+//    }
+//
+//    enum ParameterClause {
+//
+//        case _0(PUNC_LPAREN, ParameterList?, PUNC_RPAREN)
+//
+//    }
+//
+//    indirect enum ParameterList {
+//
+//        case _0(Parameter)
+//        case _1(Parameter, PUNC_COMMA, ParameterList)
+//
+//    }
+//
+//    enum ParameterName {
+//
+//        case _0(Identifier)
+//
+//    }
+//
+//    enum Statement {
+//
+//        case _0(Declaration)
+//
+//    }
+//
+//    enum StructBody {
+//
+//        case _0(PUNC_LBRACE, [StructMember], PUNC_RBRACE)
+//
+//    }
+//
+//    enum StructDeclaration {
+//
+//        case _0(KW_STRUCT, StructName, StructBody)
+//
+//    }
+//
+//    enum StructMember {
+//
+//        case _0(Declaration)
+//
+//    }
+//
+//    enum StructName {
+//
+//        case _0(Identifier)
+//
+//    }
+//
+//    enum TopLevelDeclaration {
+//
+//        case _0([Statement])
+//
+//    }
+//
+//    enum `Type` {
+//
+//        case _0(TypeIdentifier)
+//
+//    }
+//
+//    enum TypeAnnotation {
+//
+//        case _0(PUNC_COLON, Type)
+//
+//    }
+//
+//    enum TypeIdentifier {
+//
+//        case _0(Identifier)
+//
+//    }
     
     
     
