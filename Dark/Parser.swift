@@ -20,7 +20,15 @@ extension DarkToken {
     
 }
 
-enum DarkKeyword: DarkToken {
+struct DarkEof: DarkToken {
+ 
+    func `is`(_ other: DarkToken) -> Bool {
+        return other is DarkEof
+    }
+    
+}
+
+enum DarkKeyword: String, DarkToken {
     
     case `func`
     
@@ -73,110 +81,247 @@ enum DarkPunctuator: DarkToken {
 
 }
 
-struct DarkLexer {
+struct DarkLexer<Buffer: BidirectionalCollection> where Buffer.Element == Character {
     
-    let currentToken: DarkToken
+    private let buffer: Buffer
 
-    func lex() {
+    private var index: Buffer.Index
+    
+    private(set) var currentToken: DarkToken = DarkEof()
+
+    init(buffer: Buffer) {
+        self.buffer = buffer
+        self.index = buffer.startIndex
         
+        lex()
+    }
+    
+    mutating func lex() {
+        while index < buffer.endIndex && buffer[index].isSpace {
+            buffer.formIndex(after: &index)
+        }
+        
+        guard index < buffer.endIndex else { return currentToken = DarkEof() }
+        
+        switch buffer[index] {
+        
+        case "a" ... "z": fallthrough
+        case "A" ... "Z": return lexIdentifier()
+
+        case "(": return lex(.lParen)
+        case ")": return lex(.rParen)
+        case "{": return lex(.lBrace)
+        case "}": return lex(.rBrace)
+
+        case ":": return lex(.colon)
+
+        case "-": return lexArrow()
+            
+        default: fatalError("Unknown character '\(buffer[index])'")
+            
+        }
+    }
+
+    private mutating func lex(_ p: DarkPunctuator) {
+        currentToken = p
+        buffer.formIndex(after: &index)
+    }
+    
+    private mutating func lexArrow() {
+        buffer.formIndex(after: &index)
+
+        guard index < buffer.endIndex && buffer[index] == ">" else {
+            fatalError("Invalid character in source code")
+        }
+        
+        buffer.formIndex(after: &index)
+
+        currentToken = DarkPunctuator.arrow
+    }
+    
+    private mutating func lexIdentifier() {
+        var id = String(buffer[index])
+        
+        buffer.formIndex(after: &index)
+
+        while index < buffer.endIndex && buffer[index].isAlphaNum {
+            id.append(buffer[index])
+            buffer.formIndex(after: &index)
+        }
+        
+        currentToken = DarkKeyword(rawValue: id) ?? DarkIdentifier(id: id)
     }
     
 }
 
-struct DarkParser {
-
-    private let lexer: DarkLexer
-
+struct DarkParser<Buffer: BidirectionalCollection> where Buffer.Element == Character {
     
-    func parseArgumentName() -> Bool {
-        guard lexer.currentToken.is(DarkIdentifier.self) else { return false }
+    private var lexer: DarkLexer<Buffer>
+
+    init(lexer: DarkLexer<Buffer>) {
+        self.lexer = lexer
+    }
+    
+    mutating func parseArgumentName() -> Bool {
+        guard let id = lexer.currentToken as? DarkIdentifier else {
+            print("expected identifier")
+            return false
+        }
+        
+        print("argument name is: \"\(id.id)\"")
         
         lexer.lex()
         
         return true
     }
     
-    func parseDeclaration() -> Bool {
-        return parseFunctionDeclaration()
+    mutating func parseDeclaration() -> Bool {
+        guard parseFunctionDeclaration() else {
+            print("could not parse function declaration")
+            return false
+        }
+        
+        return true
     }
 
-    func parseFunctionArgumentList() -> Bool {
-        guard parseFunctionArgument() else { return false }
+    mutating func parseFunctionArgumentList() -> Bool {
+        guard parseFunctionArgument() else {
+            print("could not parse function argument")
+            return false
+        }
         
         guard lexer.currentToken.is(DarkPunctuator.comma) else { return true }
     
         lexer.lex()
        
-        return parseFunctionArgumentList()
+        guard parseFunctionArgumentList() else {
+            print("could not parse function argument list")
+            return false
+        }
+        
+        return true
     }
     
-    func parseFunctionArgument() -> Bool {
-        guard parseArgumentName() else { return false }
+    mutating func parseFunctionArgument() -> Bool {
+        guard parseArgumentName() else {
+            print("could not parse argument name")
+            return false
+        }
     
-        guard lexer.currentToken.is(DarkPunctuator.colon) else { return false }
+        guard lexer.currentToken.is(DarkPunctuator.colon) else {
+            print("expected ':'")
+            return false
+        }
         
         lexer.lex()
         
-        return parseType()
+        guard parseType() else {
+            print("could not parse type")
+            return false
+        }
+        
+        return true
     }
     
-    func parseFunctionArguments() -> Bool {
-        guard lexer.currentToken.is(DarkPunctuator.lParen) else { return false }
+    mutating func parseFunctionArguments() -> Bool {
+        guard lexer.currentToken.is(DarkPunctuator.lParen) else {
+            print("expected '('")
+            return false
+        }
         
         lexer.lex()
 
         _ = parseFunctionArgumentList()
         
-        guard lexer.currentToken.is(DarkPunctuator.rParen) else { return false }
+        guard lexer.currentToken.is(DarkPunctuator.rParen) else {
+            print("expected ')'")
+            return false
+        }
 
         lexer.lex()
         
         return true
     }
     
-    func parseFunctionBody() -> Bool {
-        guard lexer.currentToken.is(DarkPunctuator.lBrace) else { return false }
+    mutating func parseFunctionBody() -> Bool {
+        guard lexer.currentToken.is(DarkPunctuator.lBrace) else {
+            print("expected '{'")
+            return false
+        }
         
         lexer.lex()
         
-        guard lexer.currentToken.is(DarkPunctuator.rBrace) else { return false }
+        guard lexer.currentToken.is(DarkPunctuator.rBrace) else {
+            print("expected '}'")
+            return false
+        }
         
         lexer.lex()
 
         return true
     }
     
-    func parseFunctionDeclaration() -> Bool {
-        guard lexer.currentToken.is(DarkKeyword.func) else { return false }
+    mutating func parseFunctionDeclaration() -> Bool {
+        guard lexer.currentToken.is(DarkKeyword.func) else {
+            print("expected 'func'")
+            return false
+        }
         
         lexer.lex()
         
-        guard parseFunctionName() else { return false }
+        guard parseFunctionName() else {
+            print("could not parse function name")
+            return false
+        }
 
-        guard parseFunctionSignature() else { return false }
+        guard parseFunctionSignature() else {
+            print("could not parse function signature")
+            return false
+        }
         
-        return parseFunctionBody()
+        guard parseFunctionBody() else {
+            print("could not parse function body")
+            return false
+        }
+        
+        return true
     }
     
-    func parseFunctionName() -> Bool {
-        guard lexer.currentToken.is(DarkIdentifier.self) else { return false }
+    mutating func parseFunctionName() -> Bool {
+        guard let id = lexer.currentToken as? DarkIdentifier else {
+            print("expected identifier")
+            return false
+        }
+
+        print("function name is: \"\(id.id)\"")
 
         lexer.lex()
         
         return true
     }
     
-    func parseFunctionSignature() -> Bool {
-        guard parseFunctionArguments() else { return false }
+    mutating func parseFunctionSignature() -> Bool {
+        guard parseFunctionArguments() else {
+            print("could not parse function arguments")
+            return false
+        }
         
-        guard lexer.currentToken.is(DarkPunctuator.arrow) else { return false }
+        guard lexer.currentToken.is(DarkPunctuator.arrow) else {
+            print("expected '->'")
+            return false
+        }
         
         lexer.lex()
      
-        return parseType()
+        guard parseType() else {
+            print("could not parse type")
+            return false
+        }
+        
+        return true
     }
 
-    func parseTopLevelExpression() -> Bool {
+    mutating func parseTopLevelExpression() -> Bool {
         while parseDeclaration() {
             // empty
         }
@@ -184,8 +329,13 @@ struct DarkParser {
         return true
     }
     
-    func parseType() -> Bool {
-        guard lexer.currentToken.is(DarkIdentifier.self) else { return false }
+    mutating func parseType() -> Bool {
+        guard let id = lexer.currentToken as? DarkIdentifier else {
+            print("expected identifier")
+            return false
+        }
+        
+        print("type is: \"\(id.id)\"")
 
         lexer.lex()
         

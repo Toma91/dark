@@ -15,6 +15,21 @@ func unimpl(function: String = #function) -> Never {
 }
 
 
+
+let _code = """
+func test(name: String) -> Void {
+}
+test(name: characterName)
+"""
+
+var dp = DarkParser(lexer: DarkLexer(buffer: _code))
+print(dp.parseTopLevelExpression())
+
+exit(0)
+
+
+
+
 let code = """
 func test(name: String) -> Void {
     print(name)
@@ -30,6 +45,7 @@ while let t = Optional(_lexer.getToken()), !t.isEof {
 var l = Lexer(buffer: code)
 var p = Parser(lexer: l)
 try p.parseTopLevelExpression()
+
 
 
 
