@@ -7,20 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		65158B7020E5034F00218BFE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B6F20E5034F00218BFE /* main.swift */; };
-		65158B7720E5039000218BFE /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B7620E5039000218BFE /* Token.swift */; };
-		65158B7920E503C100218BFE /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B7820E503C100218BFE /* Lexer.swift */; };
-		65158B7B20E5047300218BFE /* Character+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B7A20E5047300218BFE /* Character+Utils.swift */; };
-		651ADF3E20F62D3300A3144F /* Grammar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651ADF3D20F62D3300A3144F /* Grammar.swift */; };
-		654329AE20F7EC9300E599F0 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654329AD20F7EC9300E599F0 /* Parser.swift */; };
-		654329B120FB686A00E599F0 /* SwiftLexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654329B020FB686A00E599F0 /* SwiftLexer.swift */; };
-		654329B420FB942600E599F0 /* SMLoc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654329B320FB942600E599F0 /* SMLoc.swift */; };
-		654329B620FB942E00E599F0 /* llvm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654329B520FB942E00E599F0 /* llvm.swift */; };
-		65576B8B20F8DB3D00F3599A /* Keyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65576B8A20F8DB3D00F3599A /* Keyword.swift */; };
-		65576B8D20F8DB6000F3599A /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65576B8C20F8DB6000F3599A /* Identifier.swift */; };
-		65576B8F20F8DB7D00F3599A /* Punctuator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65576B8E20F8DB7D00F3599A /* Punctuator.swift */; };
-		65576B9120F8DBDF00F3599A /* Eof.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65576B9020F8DBDF00F3599A /* Eof.swift */; };
-		65706B3520F21251007E2467 /* IteratorProtocol+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65706B3420F21251007E2467 /* IteratorProtocol+Utils.swift */; };
+		654329B720FFE06F00E599F0 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B6F20E5034F00218BFE /* main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -182,20 +169,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65706B3520F21251007E2467 /* IteratorProtocol+Utils.swift in Sources */,
-				654329B420FB942600E599F0 /* SMLoc.swift in Sources */,
-				65576B9120F8DBDF00F3599A /* Eof.swift in Sources */,
-				65576B8D20F8DB6000F3599A /* Identifier.swift in Sources */,
-				65158B7020E5034F00218BFE /* main.swift in Sources */,
-				65576B8F20F8DB7D00F3599A /* Punctuator.swift in Sources */,
-				65158B7B20E5047300218BFE /* Character+Utils.swift in Sources */,
-				65158B7920E503C100218BFE /* Lexer.swift in Sources */,
-				65158B7720E5039000218BFE /* Token.swift in Sources */,
-				654329B120FB686A00E599F0 /* SwiftLexer.swift in Sources */,
-				654329B620FB942E00E599F0 /* llvm.swift in Sources */,
-				65576B8B20F8DB3D00F3599A /* Keyword.swift in Sources */,
-				651ADF3E20F62D3300A3144F /* Grammar.swift in Sources */,
-				654329AE20F7EC9300E599F0 /* Parser.swift in Sources */,
+				654329B720FFE06F00E599F0 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
