@@ -6,8 +6,74 @@
 //  Copyright © 2018 Weedea. All rights reserved.
 //
 
-protocol Token {
+enum Keyword: String {
     
+    case `func`
+    
+}
+
+enum Punctuator {
+    
+    case lParen
+    case rParen
+    case lBrace
+    case rBrace
+    
+    case colon
+    
+}
+
+struct Token {
+    
+    enum Flavor {
+        
+        case uninitialized
+        case identifier(String)
+        case keyword(Keyword)
+        case punctuator(Punctuator)
+        case eof
+
+    }
+    
+    let leadingTrivia: [Trivia]
+
+    let flavor: Flavor
+    
+    let trailingTrivia: [Trivia]
+
+}
+
+extension Token.Flavor: CustomStringConvertible {
+    
+    var description: String {
+        switch self {
+        
+        case .uninitialized: return ".uninitialized"
+        case .identifier(let i): return ".identifier(\"\(i)\")"
+        case .keyword(let k): return ".keyword(\(k))"
+        case .punctuator(let p): return ".punctuator(\(p))"
+        case .eof: return ".eof"
+
+        }
+    }
+    
+}
+extension Token.Flavor: Equatable {
+    
+    static func ==(lhs: Token.Flavor, rhs: Token.Flavor) -> Bool {
+        switch (lhs, rhs) {
+        
+        case (.uninitialized, .uninitialized): return true
+        case (.identifier(let x), .identifier(let y)): return x == y
+        case (.keyword(let x), .keyword(let y)): return x == y
+        case (.punctuator(let x), .punctuator(let y)): return x == y
+        case (.eof, .eof): return true
+
+        default: return false
+            
+        }
+    }
+        
 }
 
 

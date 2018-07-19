@@ -14,21 +14,29 @@ func unimpl(function: String = #function) -> Never {
     fatalError("\(function): not implemented yet")
 }
 
-func t<Buffer: RandomAccessCollection>(buf: Buffer) where Buffer.Element == Character {
-    
+
+// -----------------------------------------------------------------------------
+
+
+let code = """
+  \n
+\u{C}\r  func test(name: String) -> Void {
 }
+test(name: characterName)
+"""
 
-var s = ""
+print("code: ~\(code)~\n\n")
 
-for i in 0 ..< 1_000_000_000 {
-    s.append(Character(Unicode.Scalar(UInt8(i % 256))))
-}
 
-let d = Date()
-let b = Array.init(s)
-print(Date().timeIntervalSince(d))
+var l = Lexer(buffer: code)
 
-t(buf: b)
+repeat {
+    print(l.currentToken, "\n\n")
+    l.lex()
+} while l.currentToken.flavor != .eof
+
+
+
 
 
 

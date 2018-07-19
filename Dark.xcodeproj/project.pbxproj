@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		654329B720FFE06F00E599F0 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B6F20E5034F00218BFE /* main.swift */; };
+		654329B92103D1DE00E599F0 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B7820E503C100218BFE /* Lexer.swift */; };
+		654329BA2103D26C00E599F0 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65158B7620E5039000218BFE /* Token.swift */; };
+		654329BC2103D9E700E599F0 /* Trivia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654329BB2103D9E700E599F0 /* Trivia.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +36,7 @@
 		654329B020FB686A00E599F0 /* SwiftLexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftLexer.swift; sourceTree = "<group>"; };
 		654329B320FB942600E599F0 /* SMLoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMLoc.swift; sourceTree = "<group>"; };
 		654329B520FB942E00E599F0 /* llvm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = llvm.swift; sourceTree = "<group>"; };
+		654329BB2103D9E700E599F0 /* Trivia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trivia.swift; sourceTree = "<group>"; };
 		65576B8A20F8DB3D00F3599A /* Keyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyword.swift; sourceTree = "<group>"; };
 		65576B8C20F8DB6000F3599A /* Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
 		65576B8E20F8DB7D00F3599A /* Punctuator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Punctuator.swift; sourceTree = "<group>"; };
@@ -70,15 +74,14 @@
 		65158B6E20E5034F00218BFE /* Dark */ = {
 			isa = PBXGroup;
 			children = (
+				654329B82103D1D300E599F0 /* Old */,
 				654329B220FB941C00E599F0 /* llvm */,
 				654329AF20FB680D00E599F0 /* Swift */,
 				65576B8520F8D89100F3599A /* Token */,
 				65158B6F20E5034F00218BFE /* main.swift */,
-				65158B7A20E5047300218BFE /* Character+Utils.swift */,
-				65706B3420F21251007E2467 /* IteratorProtocol+Utils.swift */,
 				65158B7820E503C100218BFE /* Lexer.swift */,
-				651ADF3D20F62D3300A3144F /* Grammar.swift */,
-				654329AD20F7EC9300E599F0 /* Parser.swift */,
+				65158B7620E5039000218BFE /* Token.swift */,
+				654329BB2103D9E700E599F0 /* Trivia.swift */,
 			);
 			path = Dark;
 			sourceTree = "<group>";
@@ -100,6 +103,17 @@
 			path = llvm;
 			sourceTree = "<group>";
 		};
+		654329B82103D1D300E599F0 /* Old */ = {
+			isa = PBXGroup;
+			children = (
+				65158B7A20E5047300218BFE /* Character+Utils.swift */,
+				65706B3420F21251007E2467 /* IteratorProtocol+Utils.swift */,
+				654329AD20F7EC9300E599F0 /* Parser.swift */,
+				651ADF3D20F62D3300A3144F /* Grammar.swift */,
+			);
+			path = Old;
+			sourceTree = "<group>";
+		};
 		65576B8520F8D89100F3599A /* Token */ = {
 			isa = PBXGroup;
 			children = (
@@ -107,7 +121,6 @@
 				65576B8A20F8DB3D00F3599A /* Keyword.swift */,
 				65576B8C20F8DB6000F3599A /* Identifier.swift */,
 				65576B8E20F8DB7D00F3599A /* Punctuator.swift */,
-				65158B7620E5039000218BFE /* Token.swift */,
 			);
 			path = Token;
 			sourceTree = "<group>";
@@ -169,6 +182,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				654329BA2103D26C00E599F0 /* Token.swift in Sources */,
+				654329B92103D1DE00E599F0 /* Lexer.swift in Sources */,
+				654329BC2103D9E700E599F0 /* Trivia.swift in Sources */,
 				654329B720FFE06F00E599F0 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
